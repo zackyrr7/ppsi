@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 import 'package:tap_material/halaman_utama.dart';
-import 'package:tap_material/keranjang.dart';
+
+import 'package:tap_material/list.dart';
+import 'package:tap_material/models/mitra.dart';
 import 'package:tap_material/profil_toko.dart';
 import 'package:tap_material/profil_user.dart';
-import 'package:sizer/sizer.dart';
+import 'package:tap_material/widget/widget_mitra.dart';
 
 class HalamanDelapan extends StatelessWidget {
   const HalamanDelapan({Key? key}) : super(key: key);
@@ -23,34 +25,17 @@ class HalamanDelapan extends StatelessWidget {
                     fontSize: 18,
                     color: Colors.black,
                     fontWeight: FontWeight.bold)),
-            // leading: IconButton(
-            //   onPressed: () {
-            //     Navigator.pop(context, false);
-            //   },
-            //   icon: Icon(Icons.arrow_back),
-            //   color: Colors.black,
-            // ),
           ),
-          body: LayoutBuilder(builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    minWidth: constraints.maxWidth,
-                    minHeight: constraints.maxHeight),
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        mitra(context),
-                        mitra(context),
-                        mitra(context),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
+          body: GridView.builder(
+            itemCount: mitras.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, mainAxisSpacing: 2),
+            itemBuilder: (context, index) => widgetmitra(
+              mitra: mitras[index],
+              press: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfilToko(mitra:mitras[index]))),
+            ),
+          ),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             backgroundColor: Color(0xff79B4B7),
@@ -76,11 +61,11 @@ class HalamanDelapan extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return Keranjang();
+                        return listitem();
                       }));
                     },
                     icon: Icon(Icons.shopping_cart_outlined)),
-                label: ("Keranjang"),
+                label: ("memesan"),
               ),
               BottomNavigationBarItem(
                 icon: IconButton(
@@ -96,151 +81,5 @@ class HalamanDelapan extends StatelessWidget {
             ],
           ),
         ));
-  }
-
-  Container mitra(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 30.h,
-      // color: Colors.yellow,
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Container(
-              // color: Colors.red,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.41,
-                height: MediaQuery.of(context).size.height * 0.24,
-                child: Card(
-                  elevation: 10,
-                  child: Stack(
-                    children: [
-                      Opacity(
-                        opacity: 0.7,
-                        child: Container(
-                            decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        )),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return ProfilToko();
-                          }));
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          width: MediaQuery.of(context).size.width * 0.41,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage("assets/images/Toko.jpg"),
-                                  fit: BoxFit.cover)),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(
-                            10,
-                            30 + MediaQuery.of(context).size.height * 0.11,
-                            10,
-                            10),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.only(top: 5),
-                              child: Text("Tb. Namiroh Jaya",
-                                  style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on,
-                                  size: 10,
-                                ),
-                                Text("Jl. A. Yani",
-                                    style: TextStyle(fontSize: 9.sp))
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              // color: Colors.red,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.41,
-                height: MediaQuery.of(context).size.height * 0.24,
-                child: Card(
-                  elevation: 10,
-                  child: Stack(
-                    children: [
-                      Opacity(
-                        opacity: 0.7,
-                        child: Container(
-                            decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        )),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return ProfilToko();
-                          }));
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          width: MediaQuery.of(context).size.width * 0.41,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage("assets/images/Toko.jpg"),
-                                  fit: BoxFit.cover)),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(
-                            10,
-                            30 + MediaQuery.of(context).size.height * 0.11,
-                            10,
-                            10),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.only(top: 5),
-                              child: Text("Tb. Namiroh Jaya",
-                                  style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on,
-                                  size: 10,
-                                ),
-                                Text("Jl. A. Yani",
-                                    style: TextStyle(fontSize: 9.sp))
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ]),
-    );
   }
 }

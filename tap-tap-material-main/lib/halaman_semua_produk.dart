@@ -4,8 +4,11 @@ import 'package:flutter/painting.dart';
 import 'package:tap_material/detail_barang.dart';
 import 'package:tap_material/halaman_utama.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tap_material/keranjang.dart';
+
+import 'package:tap_material/list.dart';
+import 'package:tap_material/models/product.dart';
 import 'package:tap_material/profil_user.dart';
+import 'package:tap_material/widget/widget_produk.dart';
 
 class HalamanDelapanToko extends StatelessWidget {
   const HalamanDelapanToko({Key? key}) : super(key: key);
@@ -30,29 +33,19 @@ class HalamanDelapanToko extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          body: LayoutBuilder(builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    minWidth: constraints.maxWidth,
-                    minHeight: constraints.maxHeight),
-                child: (Row(
-                  children: [
-                    Column(
-                      children: [
-                        Produk(context),
-                        Produk(context),
-                        Produk(context),
-                        Produk(context),
-                        Produk(context),
-                        Produk(context),
-                      ],
-                    )
-                  ],
-                )),
-              ),
-            );
-          }),
+          body: GridView.builder(
+            shrinkWrap: true,
+            // physics: NeverScrollableScrollPhysics(),
+            itemCount: products.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: MediaQuery.of(context).size.width /
+                  (MediaQuery.of(context).size.height / 1.9),
+            ),
+            itemBuilder: (context, index) => widgetProduk(
+              produk: products[index],
+            ),
+          ),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             backgroundColor: Color(0xff79B4B7),
@@ -78,11 +71,11 @@ class HalamanDelapanToko extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return Keranjang();
+                        return listitem();
                       }));
                     },
                     icon: Icon(Icons.shopping_cart_outlined)),
-                label: ("Keranjang"),
+                label: ("Memesan"),
               ),
               BottomNavigationBarItem(
                 icon: IconButton(

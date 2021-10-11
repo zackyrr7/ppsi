@@ -7,17 +7,25 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tap_material/detail_barang.dart';
 import 'package:tap_material/halaman_utama.dart';
-import 'package:tap_material/keranjang.dart';
+
+import 'package:tap_material/list.dart';
+import 'package:tap_material/models/mitra.dart';
 import 'package:tap_material/profil_user.dart';
 
-class ProfilToko extends StatefulWidget {
-  const ProfilToko({Key? key}) : super(key: key);
+
+
+class ProfilToko extends StatefulWidget {final Mitra mitra;
+  const ProfilToko({Key? key, required this.mitra}) : super(key: key);
 
   @override
   _ProfilTokoState createState() => _ProfilTokoState();
 }
 
 class _ProfilTokoState extends State<ProfilToko> {
+  
+  
+
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -71,7 +79,7 @@ class _ProfilTokoState extends State<ProfilToko> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      "Tb Namiroh Jaya",
+                                      "TOKO",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20),
@@ -131,11 +139,11 @@ class _ProfilTokoState extends State<ProfilToko> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return Keranjang();
+                        return listitem();
                       }));
                     },
                     icon: Icon(Icons.shopping_cart_outlined)),
-                label: ("Keranjang"),
+                label: ("Memesan"),
               ),
               BottomNavigationBarItem(
                 icon: IconButton(

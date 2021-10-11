@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tap_material/halaman_utama.dart';
-import 'package:tap_material/keranjang.dart';
+
+import 'package:tap_material/list.dart';
 
 class ProfilUser extends StatefulWidget {
   const ProfilUser({Key? key}) : super(key: key);
@@ -201,11 +202,11 @@ class _ProfilUserState extends State<ProfilUser> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return Keranjang();
+                      return listitem();
                     }));
                   },
                   icon: Icon(Icons.shopping_cart_outlined)),
-              label: ("Keranjang"),
+              label: ("Memesan"),
             ),
             BottomNavigationBarItem(
               icon: IconButton(

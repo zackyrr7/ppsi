@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tap_material/halaman_utama.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tap_material/profil_toko.dart';
+
 
 class Detail extends StatefulWidget {
   const Detail({Key? key}) : super(key: key);
@@ -71,13 +71,13 @@ class _DetailState extends State<Detail> {
                         ),
                         Column(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return ProfilToko();
-                                }));
-                              },
+                            GestureDetector(onTap: () {},
+                              // onTap: () {
+                              //   Navigator.push(context,
+                              //       MaterialPageRoute(builder: (context) {
+                              //     return ProfilToko();
+                              //   }));
+                              // },
                               child: Text(
                                 "Tb Namiroh Jaya",
                                 style: TextStyle(
