@@ -1,10 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:tap_material/authentication_service.dart';
 import 'package:tap_material/halaman_utama.dart';
+import 'package:provider/provider.dart';
+
 
 import 'package:tap_material/list.dart';
+
+import 'package:tap_material/main.dart';
 
 class ProfilUser extends StatefulWidget {
   const ProfilUser({Key? key}) : super(key: key);
@@ -14,6 +22,56 @@ class ProfilUser extends StatefulWidget {
 }
 
 class _ProfilUserState extends State<ProfilUser> {
+  bool _isEditingName = false;
+  bool _isEditingPhone = false;
+  bool _isEditingAddress = false;
+  bool _isEditingEmail = false;
+
+  late TextEditingController _editingNameController;
+  late TextEditingController _editingPhoneController;
+  late TextEditingController _editingAddressController;
+  late TextEditingController _editingEmailController;
+
+  String initialNameText = "Nama";
+  String initialPhoneText = "Masukkan NO HP";
+  String initialAddressText = "Masukkan alamat";
+  String initialEmailText = "Masukkan Email";
+
+   createAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Kamu telah keluar :(\n Datang Lagi ya"),
+            actions: [
+              ElevatedButton(
+                child: Text("Oke"),
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                    return MyApp();
+                  }));
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _editingNameController = TextEditingController(text: initialNameText);
+    _editingPhoneController = TextEditingController(text: initialPhoneText);
+    _editingAddressController = TextEditingController(text: initialAddressText);
+    _editingEmailController = TextEditingController(text: initialEmailText);
+  }
+
+  @override
+  void dispose() {
+    _editingNameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,8 +89,6 @@ class _ProfilUserState extends State<ProfilUser> {
             "PROFIL",
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
-         
-          
         ),
         body: ListView(
           children: [
@@ -82,10 +138,10 @@ class _ProfilUserState extends State<ProfilUser> {
             Container(
               child: ListTile(
                 leading: Icon(Icons.lock),
-                title: Text("Password"),
-                subtitle: Text("****************"),
+                title: Text("Nama"),
+                subtitle: _editNameTextField(),
                 trailing:
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit_off)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
               ),
             ),
             Container(
@@ -95,9 +151,9 @@ class _ProfilUserState extends State<ProfilUser> {
               child: ListTile(
                 leading: Icon(Icons.phone),
                 title: Text("Nomor Handphone"),
-                subtitle: Text("0895********"),
+                subtitle: _editPhoneTextField(),
                 trailing:
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit_off)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
               ),
             ),
             Container(
@@ -107,9 +163,9 @@ class _ProfilUserState extends State<ProfilUser> {
               child: ListTile(
                 leading: Icon(Icons.location_on),
                 title: Text("Alamat"),
-                subtitle: Text("Jl. Padat Karya"),
+                subtitle: _editAddressTextField(),
                 trailing:
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit_off)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
               ),
             ),
             Container(
@@ -119,9 +175,9 @@ class _ProfilUserState extends State<ProfilUser> {
               child: ListTile(
                 leading: Icon(Icons.email),
                 title: Text("E-mail"),
-                subtitle: Text("taptapmaterial@gmail.com"),
+                subtitle: _editEmailTextField(),
                 trailing:
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit_off)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
               ),
             ),
             Container(
@@ -176,9 +232,18 @@ class _ProfilUserState extends State<ProfilUser> {
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Divider(),
             ),
+            ElevatedButton(
+              child: Text("Keluar"),
+              onPressed: () {
+                context.read<AuthenticationService>().signOut();
+                createAlertDialog(context);
+                
+              },
+            )
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 2,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Color(0xff79B4B7),
           selectedItemColor: Colors.white,
@@ -220,6 +285,126 @@ class _ProfilUserState extends State<ProfilUser> {
               label: ("Akun"),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _editNameTextField() {
+    if (_isEditingName)
+      return Center(
+        child: TextField(
+          onSubmitted: (newValue) {
+            setState(() {
+              initialNameText = newValue;
+              _isEditingName = false;
+            });
+          },
+          autofocus: true,
+          controller: _editingNameController,
+        ),
+      );
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _isEditingName = true;
+        });
+      },
+      child: Text(
+        initialNameText,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 18.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _editPhoneTextField() {
+    if (_isEditingPhone)
+      return Center(
+        child: TextField(
+          onSubmitted: (newValue) {
+            setState(() {
+              initialPhoneText = newValue;
+              _isEditingPhone = false;
+            });
+          },
+          autofocus: true,
+          controller: _editingPhoneController,
+        ),
+      );
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _isEditingPhone = true;
+        });
+      },
+      child: Text(
+        initialPhoneText,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 18.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _editAddressTextField() {
+    if (_isEditingAddress)
+      return Center(
+        child: TextField(
+          onSubmitted: (newValue) {
+            setState(() {
+              initialAddressText = newValue;
+              _isEditingAddress = false;
+            });
+          },
+          autofocus: true,
+          controller: _editingAddressController,
+        ),
+      );
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _isEditingAddress = true;
+        });
+      },
+      child: Text(
+        initialAddressText,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 18.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _editEmailTextField() {
+    if (_isEditingEmail)
+      return Center(
+        child: TextField(
+          onSubmitted: (newValue) {
+            setState(() {
+              initialEmailText = newValue;
+              _isEditingEmail = false;
+            });
+          },
+          autofocus: true,
+          controller: _editingEmailController,
+        ),
+      );
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _isEditingEmail = true;
+        });
+      },
+      child: Text(
+        initialEmailText,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 18.0,
         ),
       ),
     );

@@ -1,6 +1,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:tap_material/halaman_utama.dart';
+import 'package:tap_material/profil_user.dart';
 
 
 import 'package:url_launcher/url_launcher.dart';
@@ -140,6 +142,50 @@ class _listitemState extends State<listitem> {
                   )),
             ],
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 1,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Color(0xff79B4B7),
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(.60),
+          selectedFontSize: 14,
+          unselectedFontSize: 14,
+          items: [
+            BottomNavigationBarItem(
+              icon: IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return HalamanEmpat();
+                  }));
+                },
+                icon: Icon(Icons.home),
+              ),
+              label: ("Beranda"),
+            ),
+            BottomNavigationBarItem(
+              icon: IconButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return listitem();
+                    }));
+                  },
+                  icon: Icon(Icons.shopping_cart_outlined)),
+              label: ("Memesan"),
+            ),
+            BottomNavigationBarItem(
+              icon: IconButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return ProfilUser();
+                    }));
+                  },
+                  icon: Icon(Icons.person)),
+              label: ("Akun"),
+            ),
+          ],
         ),
       ),
     );

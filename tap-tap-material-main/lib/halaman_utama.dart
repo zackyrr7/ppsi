@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 import 'package:tap_material/list.dart';
+
 import 'package:tap_material/models/mitra.dart';
 import 'package:tap_material/models/product.dart';
 import 'package:tap_material/semua_mitra.dart';
@@ -14,6 +15,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tap_material/widget/widget_mitra.dart';
 import 'package:tap_material/widget/widget_produk.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+
+
 
 void main() {
   runApp(const HalamanEmpat());
@@ -146,6 +150,7 @@ class _HalamanEmpatState extends State<HalamanEmpat> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 0,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Color(0xff79B4B7),
           selectedItemColor: Colors.white,
@@ -199,3 +204,4 @@ void _openWhatsAppChat() async {
   var url = 'https://wa.me/$phoneNumber?text=$kalimat';
   await launch(url);
 }
+
